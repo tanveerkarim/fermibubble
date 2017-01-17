@@ -691,4 +691,5 @@ plt.tick_params(labelcolor='none', top='off', bottom='off', left='off', right='o
 plt.ylabel('Normalized Flux', fontsize = 20)
 plt.xlabel('V$_{LSR}$', fontsize = 20)
 
-plt.savefig("Panel_plot_RBS1768_LSR.pdf", format = "pdf", bbox_inches='tight')
+filename = "Panel_plot_" + Sightline + "_LSR.pdf"
+plt.savefig(filename, format = "pdf", bbox_inches='tight')
