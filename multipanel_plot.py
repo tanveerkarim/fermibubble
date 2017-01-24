@@ -133,8 +133,8 @@ flux = tmp[1]
 
 #Fit the continuum
 low1 = -500
-high1 = -300
-low2 = 230
+high1 = -200
+low2 = 400
 high2 = 500
 x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
 x2 = velocity[(velocity>=low2) & (velocity<=high2)] #higher bound range
