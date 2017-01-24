@@ -604,6 +604,115 @@ axes[5][0].yaxis.set_major_locator(yminorLocator)
 axes[5][0].text(-380,.2,"Si II 1526",fontsize=15,fontname="serif")
 
 #axes[5][0].xlabel('V$_LSR$', fontsize = 15)
+
+###Create Si IV 1393###
+
+#Set tick marks for plot
+xmajorLocator = MultipleLocator(200)
+xmajorFormatter = FormatStrFormatter('%d')
+xminorLocator = MultipleLocator(100)
+ymajorLocator = MultipleLocator(.8)
+yminorLocator = MultipleLocator(.4)
+
+#Set these global variables according to the type of ions. Read from the qal.lst file. 
+w0 = 1393.755 #Rest wavelength
+fv = 0.5280 #Oscillator strengh/f-value
+
+#Set wavelength, velocity and flux
+Lambda = w0
+velocity = (tmp[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambda*(speed of light in km/s)
+flux = tmp[1]
+
+#Fit the continuum
+low1 = -500
+high1 = -400
+low2 = 100
+high2 = 370
+x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
+x2 = velocity[(velocity>=low2) & (velocity<=high2)] #higher bound range
+X = np.append(x1,x2)
+y1 = flux[(velocity>=low1) & (velocity<=high1)] #lower bound range
+y2 = flux[(velocity>=low2) & (velocity<=high2)] #higher bound range
+Y = np.append(y1,y2)
+Z = np.polyfit(X,Y,1) #Linear fit
+
+#Generate data to plot continuum
+xp = np.linspace(-500,501,len(flux[(flux>=-500) & (flux<=500)]))
+p = np.poly1d(Z)
+
+#Normalize flux
+norm_flux = flux/p(xp)
+
+tmp1 = np.linspace(-400,400,10)
+tmp2 = np.full((1,10),1)[0]
+
+axes[4][1].step(velocity,norm_flux,'k')
+axes[4][1].plot(tmp1,tmp2,'k--')
+
+axes[4][1].text(-380,.05,'Si IV 1393',fontsize=15,fontname="serif")
+
+axes[4][1].axis([-400,400,-.12,1.4])
+axes[4][1].xaxis.set_major_locator(xmajorLocator)
+axes[4][1].xaxis.set_major_formatter(xmajorFormatter)
+axes[4][1].xaxis.set_major_locator(xminorLocator)
+axes[4][1].yaxis.set_major_locator(ymajorLocator)
+axes[4][1].yaxis.set_major_locator(yminorLocator)
+
+
+###Create Si IV 1402###
+
+#Set tick marks for plot
+xmajorLocator = MultipleLocator(200)
+xmajorFormatter = FormatStrFormatter('%d')
+xminorLocator = MultipleLocator(100)
+ymajorLocator = MultipleLocator(.8)
+yminorLocator = MultipleLocator(.4)
+
+#Set these global variables according to the type of ions. Read from the qal.lst file. 
+w0 = 1402.770 #Rest wavelength
+fv = 0.2620 #Oscillator strengh/f-value
+
+#Set wavelength, velocity and flux
+Lambda = w0
+velocity = (tmp[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambda*(speed of light in km/s)
+flux = tmp[1]
+
+#Fit the continuum
+low1 = -500
+high1 = -400
+low2 = 200
+high2 = 500
+x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
+x2 = velocity[(velocity>=low2) & (velocity<=high2)] #higher bound range
+X = np.append(x1,x2)
+y1 = flux[(velocity>=low1) & (velocity<=high1)] #lower bound range
+y2 = flux[(velocity>=low2) & (velocity<=high2)] #higher bound range
+Y = np.append(y1,y2)
+Z = np.polyfit(X,Y,1) #Linear fit
+
+#Generate data to plot continuum
+xp = np.linspace(-500,501,len(flux[(flux>=-500) & (flux<=500)]))
+p = np.poly1d(Z)
+
+#Normalize flux
+norm_flux = flux/p(xp)
+
+tmp1 = np.linspace(-400,400,10)
+tmp2 = np.full((1,10),1)[0]
+
+axes[5][1].plot(tmp1,tmp2,'k--')
+axes[5][1].step(velocity,norm_flux,'k')
+
+axes[5][1].axis([-400,400,-.12,1.4])
+axes[5][1].xaxis.set_major_locator(xmajorLocator)
+axes[5][1].xaxis.set_major_formatter(xmajorFormatter)
+axes[5][1].xaxis.set_major_locator(xminorLocator)
+axes[5][1].yaxis.set_major_locator(ymajorLocator)
+axes[5][1].yaxis.set_major_locator(yminorLocator)
+
+axes[5][1].text(-380,.2,'Si IV 1402',fontsize=15,fontname="serif")
+
+#axes[5][1].xlabel('V$_LSR$', fontsize = 15)
 """--------------------------------------------------------------------------------------"""
 f.subplots_adjust(hspace=0, wspace=0.08) #Set no space between subplots
 plt.setp([a.get_xticklabels() for a in f.axes[:-2]], visible=False) #Bottom two panels show axis label
