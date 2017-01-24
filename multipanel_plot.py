@@ -132,10 +132,10 @@ velocity = (tmp[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambda*(
 flux = tmp[1]
 
 #Fit the continuum
-low1 = -500
-high1 = -200
-low2 = 400
-high2 = 500
+low1 = -500 #lower bound for continuum fit on the left side
+high1 = -200 #upper bound for continuum fit on the left side
+low2 = 400 #lower bound for continuum fit on the right side
+high2 = 500 #upper bound for continuum fit on the right side
 x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
 x2 = velocity[(velocity>=low2) & (velocity<=high2)] #higher bound range
 X = np.append(x1,x2)
@@ -186,8 +186,8 @@ flux = tmp[1]
 
 #Fit the continuum
 low1 = -500
-high1 = -200
-low2 = 350
+high1 = -300
+low2 = 380
 high2 = 500
 x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
 x2 = velocity[(velocity>=low2) & (velocity<=high2)] #higher bound range
@@ -242,9 +242,9 @@ flux = tmp[1]
 
 #Fit the continuum
 low1 = -500
-high1 = -220
-low2 = 200
-high2 = 400
+high1 = -400
+low2 = 100
+high2 = 300
 x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
 x2 = velocity[(velocity>=low2) & (velocity<=high2)] #higher bound range
 X = np.append(x1,x2)
@@ -296,7 +296,7 @@ flux = tmp[1]
 
 #Fit the continuum
 low1 = -400
-high1 = -180
+high1 = -200
 low2 = 100
 high2 = 500
 x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
@@ -339,6 +339,10 @@ xminorLocator = MultipleLocator(100)
 ymajorLocator = MultipleLocator(.8)
 yminorLocator = MultipleLocator(.4)
 
+#Set these global variables according to the type of ions. Read from the qal.lst file. 
+w0 = 1670.7874 #Rest wavelength
+fv = 1.88 #Oscillator strengh/f-value
+
 #Set wavelength, velocity and flux
 Lambda = w0
 velocity = (tmp[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambda*(speed of light in km/s); then apply  the LSR and GSR correction
@@ -346,8 +350,8 @@ flux = tmp[1]
 
 #Fit the continuum
 low1 = -500
-high1 = -200
-low2 = 180
+high1 = -400
+low2 = 200
 high2 = 500
 x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
 x2 = velocity[(velocity>=low2) & (velocity<=high2)] #higher bound range
@@ -445,6 +449,9 @@ xminorLocator = MultipleLocator(100)
 ymajorLocator = MultipleLocator(.8)
 yminorLocator = MultipleLocator(.4)
 
+#Set these global variables according to the type of ions. Read from the qal.lst file. 
+w0 = 1193.2897 #Rest wavelength
+fv = 0.4991 #Oscillator strengh/f-value
 
 #Set wavelength, velocity and flux
 Lambda = w0
@@ -455,7 +462,7 @@ flux = tmp[1]
 low1 = -500
 high1 = -200
 low2 = 200
-high2 = 500
+high2 = 400
 x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
 x2 = velocity[(velocity>=low2) & (velocity<=high2)] #higher bound range
 X = np.append(x1,x2)
@@ -507,9 +514,9 @@ flux = tmp[1]
 
 #Fit the continuum
 low1 = -500
-high1 = -350
+high1 = -400
 low2 = 200
-high2 = 500
+high2 = 350
 x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
 x2 = velocity[(velocity>=low2) & (velocity<=high2)] #higher bound range
 X = np.append(x1,x2)
@@ -543,7 +550,6 @@ axes[2][0].yaxis.set_major_locator(yminorLocator)
 axes[2][0].text(-380,.15,"Si II 1260",fontsize=15,fontname="serif")
 
 
-
 ###Create Si II 1526###
 
 #Set tick marks for plot
@@ -564,8 +570,8 @@ flux = tmp[1]
 
 #Fit the continuum
 low1 = -500
-high1 = -200
-low2 = 180
+high1 = -380
+low2 = 200
 high2 = 500
 x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
 x2 = velocity[(velocity>=low2) & (velocity<=high2)] #higher bound range
