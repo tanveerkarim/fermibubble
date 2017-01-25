@@ -14,7 +14,7 @@ from readcol import *
 c=2.99792e5 #Speed of light in km/s
 
 #User input variables
-Sightline = 'CTS487'
+Sightline = 'ESO141-G55'
 
 #Galactic l and b
 l = np.deg2rad(np.asarray(SkyCoord.from_name(Sightline).galactic.l)); 
@@ -112,6 +112,7 @@ axes[0][1].yaxis.set_major_locator(ymajorLocator)
 axes[0][1].yaxis.set_major_locator(yminorLocator)
 axes[0][1].set_ylabel("T$_{B}$ [K]")
 axes[0][1].text(-380,.2,"H I 21cm",fontsize=15,fontname="serif")
+axes[0][1].text(-380,1,"GASS",fontsize=15,fontname="serif") #Specify whether source of data is GASS or GBT
 
 ###Create Si III 1206###
 
@@ -720,8 +721,9 @@ plt.setp([a.get_xticklabels() for a in f.axes[:-2]], visible=False) #Bottom two 
 #Common y-axis label
 f.add_subplot(111, frameon=False)
 plt.tick_params(labelcolor='none', top='off', bottom='off', left='off', right='off')
-plt.ylabel('Normalized Flux', fontsize = 20)
-plt.xlabel('V$_{LSR}$', fontsize = 20)
+plt.ylabel('Normalized Flux', fontsize = 20, fontname='serif')
+plt.xlabel('V$_{LSR}$', fontsize = 20, fontname='serif')
+plt.title('Sightline = {}, l = {:.2f}, b = {:.2f}'.format(Sightline, np.rad2deg(l), np.rad2deg(b)), fontsize = 15, fontname='serif')
 
 filename = "Panel_plot_" + Sightline + "_LSR.pdf"
 plt.savefig(filename, format = "pdf", bbox_inches='tight')
