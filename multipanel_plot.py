@@ -14,7 +14,7 @@ from readcol import *
 c=2.99792e5 #Speed of light in km/s
 
 #User input variables
-Sightline = 'ESO141-G55'
+Sightline = 'RBS1666'
 
 #Galactic l and b
 l = np.deg2rad(np.asarray(SkyCoord.from_name(Sightline).galactic.l)); 
@@ -24,11 +24,11 @@ b = np.deg2rad(np.asarray(SkyCoord.from_name(Sightline).galactic.b))  #In radian
 v_corr_LSR = 9.0*np.cos(l)*np.cos(b)+12.0*np.sin(l)*np.cos(b)+7.0*np.sin(b) #v_LSR of the object
 
 #Read FITS files
-g130m = np.genfromtxt('Sightlines/ESO141-G55/ESO141-G55_G130M')
-g160m = np.genfromtxt('Sightlines/ESO141-G55/ESO141-G55_G160M')
+g130m = np.genfromtxt('Sightlines/RBS1666/RBS1666_G130M')
+g160m = np.genfromtxt('Sightlines/RBS1666/RBS1666_G160M')
 
 #Read GASS HI spectra file
-gass = np.genfromtxt('Sightlines/ESO141-G55/ESO141-G55_HIsp-GASS.dat')
+gass = np.genfromtxt('Sightlines/RBS1666/RBS1666_HIsp-GASS.dat')
 
 #Extract Wavelength, Flux and Error
 w130 = g130m[:,0]
@@ -135,7 +135,7 @@ flux = tmp[1]
 #Fit the continuum
 low1  = -500   #lower bound for continuum fit on the left side
 high1 = -200  #upper bound for continuum fit on the left side
-low2  =  200   #lower bound for continuum fit on the right side
+low2  =  350   #lower bound for continuum fit on the right side
 high2 =  500   #upper bound for continuum fit on the right side
 x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
 x2 = velocity[(velocity>=low2) & (velocity<=high2)] #higher bound range
@@ -244,8 +244,8 @@ flux = tmp[1]
 #Fit the continuum
 low1 = -500
 high1 = -200
-low2 = 100
-high2 = 300
+low2 = 300
+high2 = 400
 x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
 x2 = velocity[(velocity>=low2) & (velocity<=high2)] #higher bound range
 X = np.append(x1,x2)
@@ -296,9 +296,9 @@ velocity = (tmp[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambda*(
 flux = tmp[1]
 
 #Fit the continuum
-low1 = -400
-high1 = -200
-low2 = 100
+low1 = -200
+high1 = -100
+low2 = 300
 high2 = 500
 x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
 x2 = velocity[(velocity>=low2) & (velocity<=high2)] #higher bound range
@@ -406,8 +406,8 @@ velocity = (tmp[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambda*(
 flux = tmp[1]
 
 #Fit the continuum
-low1 = -390
-high1 = -200
+low1 = -300
+high1 = -190
 low2 = 200
 high2 = 500
 x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
@@ -462,8 +462,8 @@ flux = tmp[1]
 #Fit the continuum
 low1 = -500
 high1 = -200
-low2 = 200
-high2 = 400
+low2 = 350
+high2 = 500
 x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
 x2 = velocity[(velocity>=low2) & (velocity<=high2)] #higher bound range
 X = np.append(x1,x2)
@@ -515,9 +515,9 @@ flux = tmp[1]
 
 #Fit the continuum
 low1 = -400
-high1 = -300
-low2 = 100
-high2 = 200
+high1 = -350
+low2 = 300
+high2 = 500
 x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
 x2 = velocity[(velocity>=low2) & (velocity<=high2)] #higher bound range
 X = np.append(x1,x2)
@@ -572,7 +572,7 @@ flux = tmp[1]
 #Fit the continuum
 low1 = -500
 high1 = -200
-low2 = 200
+low2 = 350
 high2 = 500
 x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
 x2 = velocity[(velocity>=low2) & (velocity<=high2)] #higher bound range
@@ -621,13 +621,13 @@ fv = 0.5280 #Oscillator strengh/f-value
 
 #Set wavelength, velocity and flux
 Lambda = w0
-velocity = (tmp130[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambda*(speed of light in km/s)
-flux = tmp130[1]
+velocity = (tmp[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambda*(speed of light in km/s)
+flux = tmp[1]
 
 #Fit the continuum
 low1 = -500
-high1 = -300
-low2 = 200
+high1 = -200
+low2 = 380
 high2 = 500
 x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
 x2 = velocity[(velocity>=low2) & (velocity<=high2)] #higher bound range
@@ -675,14 +675,14 @@ fv = 0.2620 #Oscillator strengh/f-value
 
 #Set wavelength, velocity and flux
 Lambda = w0
-velocity = (tmp160[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambda*(speed of light in km/s)
-flux = tmp160[1]
+velocity = (tmp[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambda*(speed of light in km/s)
+flux = tmp[1]
 
 #Fit the continuum
 low1 = -500
-high1 = -300
-low2 = 300
-high2 = 500
+high1 = -200
+low2 = 200
+high2 = 400
 x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
 x2 = velocity[(velocity>=low2) & (velocity<=high2)] #higher bound range
 X = np.append(x1,x2)
