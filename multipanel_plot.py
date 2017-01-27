@@ -14,7 +14,7 @@ from readcol import *
 c=2.99792e5 #Speed of light in km/s
 
 #User input variables
-Sightline = 'HE2258-5524'
+Sightline = 'HE2332-3556'
 
 #Galactic l and b
 l = np.deg2rad(np.asarray(SkyCoord.from_name(Sightline).galactic.l)); 
@@ -24,11 +24,11 @@ b = np.deg2rad(np.asarray(SkyCoord.from_name(Sightline).galactic.b))  #In radian
 v_corr_LSR = 9.0*np.cos(l)*np.cos(b)+12.0*np.sin(l)*np.cos(b)+7.0*np.sin(b) #v_LSR of the object
 
 #Read FITS files
-g130m = np.genfromtxt('Sightlines/HE2258-5524/HE2258-5524_G130M')
+g130m = np.genfromtxt('Sightlines/HE2332-3556/HE2332-3556_G130M')
 #g160m = np.genfromtxt('Sightlines/ESO462-G09/ESO462-G09_G160M')
 
 #Read GASS HI spectra file
-gass = np.genfromtxt('Sightlines/HE2258-5524/HE2258-5524_HIsp-GASS.dat')
+gass = np.genfromtxt('Sightlines/HE2332-3556/HE2332-3556_HIsp-GASS.dat')
 
 #Extract Wavelength, Flux and Error
 w130 = g130m[:,0]
@@ -135,7 +135,7 @@ flux = tmp130[1]
 #Fit the continuum
 low1  = -500   #lower bound for continuum fit on the left side
 high1 = -380  #upper bound for continuum fit on the left side
-low2  =  200   #lower bound for continuum fit on the right side
+low2  =  250   #lower bound for continuum fit on the right side
 high2 =  500   #upper bound for continuum fit on the right side
 x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
 x2 = velocity[(velocity>=low2) & (velocity<=high2)] #higher bound range
@@ -186,10 +186,10 @@ velocity = (tmp130[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambd
 flux = tmp130[1]
 
 #Fit the continuum
-low1  = -500
-high1 = -380
-low2  =  -380
-high2 =  -200
+low1  = -400
+high1 = -200
+low2  =  400
+high2 =  500
 x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
 x2 = velocity[(velocity>=low2) & (velocity<=high2)] #higher bound range
 X = np.append(x1,x2)
@@ -407,7 +407,7 @@ flux = tmp130[1]
 
 #Fit the continuum
 low1  = -500
-high1 = -380
+high1 = -200
 low2  =  200
 high2 =  400
 x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
@@ -461,9 +461,9 @@ flux = tmp130[1]
 
 #Fit the continuum
 low1  = -500
-high1 = -300
+high1 = -200
 low2  =  200
-high2 =  500
+high2 =  400
 x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
 x2 = velocity[(velocity>=low2) & (velocity<=high2)] #higher bound range
 X = np.append(x1,x2)
@@ -515,8 +515,8 @@ flux = tmp130[1]
 
 #Fit the continuum
 low1  = -500
-high1 = -350
-low2  =  350
+high1 = -390
+low2  =  200
 high2 =  500
 x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
 x2 = velocity[(velocity>=low2) & (velocity<=high2)] #higher bound range
@@ -626,8 +626,8 @@ flux = tmp130[1]
 
 #Fit the continuum
 low1  = -500
-high1 = -300
-low2  =  350
+high1 = -390
+low2  =  200
 high2 =  500
 x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
 x2 = velocity[(velocity>=low2) & (velocity<=high2)] #higher bound range
@@ -679,10 +679,10 @@ velocity = (tmp130[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambd
 flux = tmp130[1]
 
 #Fit the continuum
-low1  = -400
-high1 = -200
-low2  =  200
-high2 =  350
+low1  = -500
+high1 = -400
+low2  =  220
+high2 =  500
 x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
 x2 = velocity[(velocity>=low2) & (velocity<=high2)] #higher bound range
 X = np.append(x1,x2)
