@@ -14,7 +14,7 @@ from readcol import *
 c=2.99792e5 #Speed of light in km/s
 
 #User input variables
-Sightline = 'RBS1897'
+Sightline = 'RBS2070'
 
 #Galactic l and b
 l = np.deg2rad(np.asarray(SkyCoord.from_name(Sightline).galactic.l)); 
@@ -24,20 +24,20 @@ b = np.deg2rad(np.asarray(SkyCoord.from_name(Sightline).galactic.b))  #In radian
 v_corr_LSR = 9.0*np.cos(l)*np.cos(b)+12.0*np.sin(l)*np.cos(b)+7.0*np.sin(b) #v_LSR of the object
 
 #Read FITS files
-g130m = np.genfromtxt('Sightlines/RBS1897/RBS1897_spec-G130M.gz')
-g160m = np.genfromtxt('Sightlines/RBS1897/RBS1897_spec-G160M.gz')
+g130m = np.genfromtxt('Sightlines/RBS2070/RBS2070_spec-G130M.gz')
+#g160m = np.genfromtxt('Sightlines/RBS1897/RBS1897_spec-G160M.gz')
 
 #Read GASS HI spectra file
-gass = np.genfromtxt('Sightlines/RBS1897/RBS1897_HIsp-GASS.dat')
+gass = np.genfromtxt('Sightlines/RBS2070/RBS2070_HIsp-GASS.dat')
 
 #Extract Wavelength, Flux and Error
 w130 = g130m[:,0]
 f130 = g130m[:,1]
 e130 = g130m[:,2]
 
-w160 = g160m[:,0]
+"""w160 = g160m[:,0]
 f160 = g160m[:,1]
-e160 = g160m[:,2]
+e160 = g160m[:,2]"""
 
 def array_truncater(array):
     """In order to rebin by 5 pixels, count the length of the arrays 
@@ -57,25 +57,25 @@ def array_truncater(array):
 """--------------------------------------------------------------------------------------------------------------------------------------------------"""
 
 #Truncate the arrays so that they can be rebinned by 5 pixels
-w130 = array_truncater(w130); w160 = array_truncater(w160)
-f130 = array_truncater(f130); f160 = array_truncater(f160)
-e130 = array_truncater(e130); e160 = array_truncater(e160)
+w130 = array_truncater(w130); #w160 = array_truncater(w160)
+f130 = array_truncater(f130); #f160 = array_truncater(f160)
+e130 = array_truncater(e130); #e160 = array_truncater(e160)
 
 #Produces the entire spectra
 #Combine both grating
-w = np.concatenate((w130,w160))
-f = np.concatenate((f130,f160))
-e = np.concatenate((e130,e160))
+#w = np.concatenate((w130,w160))
+#f = np.concatenate((f130,f160))
+#e = np.concatenate((e130,e160))
 
 #Two-dimensional array consisting of the wavelength and flux
 a130 = np.array([w130,f130])
-a160 = np.array([w160,f160])
-a = np.array([w,f])
+#a160 = np.array([w160,f160])
+#a = np.array([w,f])
 
 #Rebin data by 5 px
 tmp130 = bin_ndarray(a130,(2,(len(w130)/5)),'avg')
-tmp160 = bin_ndarray(a160,(2,(len(w160)/5)),'avg')
-tmp = bin_ndarray(a,(2,(len(w)/5)),'avg')
+#tmp160 = bin_ndarray(a160,(2,(len(w160)/5)),'avg')
+#tmp = bin_ndarray(a,(2,(len(w)/5)),'avg')
 
 """----------------------------------------------------------------------------------------------"""
 """Produce panel plots"""
@@ -129,8 +129,8 @@ fv = 1.66 #Oscillator strengh/f-value
 
 #Set wavelength, velocity and flux
 Lambda = w0
-velocity = (tmp[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambda*(speed of light in km/s); then apply  the LSR and GSR correction
-flux = tmp[1]
+velocity = (tmp130[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambda*(speed of light in km/s); then apply  the LSR and GSR correction
+flux = tmp130[1]
 
 #Fit the continuum
 low1  = -500   #lower bound for continuum fit on the left side
@@ -182,14 +182,14 @@ fv = 0.1278 #Oscillator strengh/f-value
 
 #Set wavelength, velocity and flux
 Lambda = w0
-velocity = (tmp[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambda*(speed of light in km/s); then apply  the LSR and GSR correction
-flux = tmp[1]
+velocity = (tmp130[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambda*(speed of light in km/s); then apply  the LSR and GSR correction
+flux = tmp130[1]
 
 #Fit the continuum
-low1  = -200
-high1 = -100
-low2  =  120
-high2 =  150
+low1  = -500
+high1 = -300
+low2  =  300
+high2 =  500
 x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
 x2 = velocity[(velocity>=low2) & (velocity<=high2)] #higher bound range
 X = np.append(x1,x2)
@@ -224,7 +224,7 @@ axes[0][0].text(-380,.2,"C II 1334",fontsize=15,fontname="serif")
 
 
 ###Create C IV 1548###
-
+"""
 #Set tick marks for plot
 xmajorLocator = MultipleLocator(200)
 xmajorFormatter = FormatStrFormatter('%d')
@@ -238,8 +238,8 @@ fv = 0.1908 #Oscillator strengh/f-value
 
 #Set wavelength, velocity and flux
 Lambda = w0
-velocity = (tmp[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambda*(speed of light in km/s); then apply  the LSR and GSR correction
-flux = tmp[1]
+velocity = (tmp130[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambda*(speed of light in km/s); then apply  the LSR and GSR correction
+flux = tmp130[1]
 
 #Fit the continuum
 low1 = -500
@@ -292,8 +292,8 @@ fv = 0.095220 #Oscillator strengh/f-value
 
 #Set wavelength, velocity and flux
 Lambda = w0
-velocity = (tmp[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambda*(speed of light in km/s); then apply  the LSR and GSR correction
-flux = tmp[1]
+velocity = (tmp130[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambda*(speed of light in km/s); then apply  the LSR and GSR correction
+flux = tmp130[1]
 
 #Fit the continuum
 low1 = -300
@@ -346,8 +346,8 @@ fv = 1.88 #Oscillator strengh/f-value
 
 #Set wavelength, velocity and flux
 Lambda = w0
-velocity = (tmp[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambda*(speed of light in km/s); then apply  the LSR and GSR correction
-flux = tmp[1]
+velocity = (tmp130[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambda*(speed of light in km/s); then apply  the LSR and GSR correction
+flux = tmp130[1]
 
 #Fit the continuum
 low1 = -380
@@ -386,7 +386,7 @@ axes[1][0].text(-380,.2,"Al II 1670",fontsize=15,fontname="serif")
 
 
 #axes[5][1].xlabel('V$_LSR$', fontsize = 15)
-
+"""
 ###Create Si II 1190###
 
 #Set tick marks for plot
@@ -402,14 +402,14 @@ fv = 0.25020 #Oscillator strengh/f-value
 
 #Set wavelength, velocity and flux
 Lambda = w0
-velocity = (tmp[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambda*(speed of light in km/s); then apply  the LSR and GSR correction
-flux = tmp[1]
+velocity = (tmp130[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambda*(speed of light in km/s); then apply  the LSR and GSR correction
+flux = tmp130[1]
 
 #Fit the continuum
 low1  = -500
-high1 = -200
-low2  =  90
-high2 =  220
+high1 = -300
+low2  =  200
+high2 =  500
 x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
 x2 = velocity[(velocity>=low2) & (velocity<=high2)] #higher bound range
 X = np.append(x1,x2)
@@ -456,12 +456,12 @@ fv = 0.4991 #Oscillator strengh/f-value
 
 #Set wavelength, velocity and flux
 Lambda = w0
-velocity = (tmp[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambda*(speed of light in km/s); then apply  the LSR and GSR correction
-flux = tmp[1]
+velocity = (tmp130[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambda*(speed of light in km/s); then apply  the LSR and GSR correction
+flux = tmp130[1]
 
 #Fit the continuum
-low1  = -300
-high1 = -200
+low1  = -500
+high1 = -300
 low2  =  200
 high2 =  500
 x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
@@ -510,12 +510,12 @@ fv = 1.007 #Oscillator strengh/f-value
 
 #Set wavelength, velocity and flux
 Lambda = w0
-velocity = (tmp[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambda*(speed of light in km/s); then apply  the LSR and GSR correction
-flux = tmp[1]
+velocity = (tmp130[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambda*(speed of light in km/s); then apply  the LSR and GSR correction
+flux = tmp130[1]
 
 #Fit the continuum
 low1  = -500
-high1 = -390
+high1 = -380
 low2  =  200
 high2 =  500
 x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
@@ -552,7 +552,7 @@ axes[2][0].text(-380,.15,"Si II 1260",fontsize=15,fontname="serif")
 
 
 ###Create Si II 1526###
-
+"""
 #Set tick marks for plot
 xmajorLocator = MultipleLocator(200)
 xmajorFormatter = FormatStrFormatter('%d')
@@ -566,8 +566,8 @@ fv = 0.127 #Oscillator strengh/f-value
 
 #Set wavelength, velocity and flux
 Lambda = w0
-velocity = (tmp[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambda*(speed of light in km/s); then apply  the LSR and GSR correction
-flux = tmp[1]
+velocity = (tmp130[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambda*(speed of light in km/s); then apply  the LSR and GSR correction
+flux = tmp130[1]
 
 #Fit the continuum
 low1  = -500
@@ -605,7 +605,7 @@ axes[5][0].yaxis.set_major_locator(yminorLocator)
 axes[5][0].text(-380,.2,"Si II 1526",fontsize=15,fontname="serif")
 
 #axes[5][0].xlabel('V$_LSR$', fontsize = 15)
-
+"""
 ###Create Si IV 1393###
 
 #Set tick marks for plot
@@ -621,12 +621,12 @@ fv = 0.5280 #Oscillator strengh/f-value
 
 #Set wavelength, velocity and flux
 Lambda = w0
-velocity = (tmp[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambda*(speed of light in km/s)
-flux = tmp[1]
+velocity = (tmp130[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambda*(speed of light in km/s)
+flux = tmp130[1]
 
 #Fit the continuum
 low1  = -500
-high1 = -200
+high1 = -300
 low2  =  200
 high2 =  500
 x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
@@ -675,13 +675,13 @@ fv = 0.2620 #Oscillator strengh/f-value
 
 #Set wavelength, velocity and flux
 Lambda = w0
-velocity = (tmp160[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambda*(speed of light in km/s)
-flux = tmp160[1]
+velocity = (tmp130[0]-Lambda)/Lambda*c + v_corr_LSR #velocity = del_lambda/lambda*(speed of light in km/s)
+flux = tmp130[1]
 
 #Fit the continuum
-low1  = -230
-high1 = -180
-low2  =  300
+low1  = -500
+high1 = -300
+low2  = 200
 high2 =  500
 x1 = velocity[(velocity>=low1) & (velocity<=high1)] #lower bound range
 x2 = velocity[(velocity>=low2) & (velocity<=high2)] #higher bound range
